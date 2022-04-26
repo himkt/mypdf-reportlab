@@ -1,21 +1,10 @@
-from reportlab.lib.pagesizes import *
 from reportlab.lib.colors import *
 from reportlab.lib.units import cm
 
 
-class Settings:
-    def __init__(self):
-        self.filename = "test"  # no need to assign a file extention
-        self.size = (575.0, 767.0)
-
-        # Minor line setting:
-        self.colorMinor = pink  # check the default setting below
-        self.lineWidthMinor = 1
-
-
 class canvasSpec:
     def __init__(self):
-        self.filename = "test"
+        self.filename = "myreport"
         self.size = (575.0, 767.0)
         self.width = 575.0
         self.height = 767.0
@@ -27,8 +16,8 @@ class canvasSpec:
         self.yStart = 0
 
 
-def draw(object, canvas, color, lineWidth):
-    def xylist(setting):
+def draw(object, canvas, color):
+    def xylist():
         xs = []
         ys = []
 
@@ -41,14 +30,14 @@ def draw(object, canvas, color, lineWidth):
         return xs, ys
 
 
-    def gridB(object, canvas, color, lineWidth, xlist, ylist):
+    def gridB(canvas, color, xlist, ylist):
         color = HexColor('#bcbcbc')
         canvas.setStrokeColor(color)
         canvas.setLineWidth(0.01 * cm)
         canvas.grid(xlist, ylist)
 
-    xlist, ylist = xylist(canvas)
-    gridB(object, canvas, color, lineWidth, xlist, ylist)
+    xlist, ylist = xylist()
+    gridB(canvas, color, xlist, ylist)
 
 
 from reportlab.pdfgen import canvas
@@ -58,7 +47,7 @@ cSpec = canvasSpec()
 c = canvas.Canvas(cSpec.filename + ".pdf", cSpec.size)
 
 # Main draw func with inputs (object,detailTF,canvas,color,lineWidth)
-draw(cSpec, c, pink, 1)
+draw(cSpec, c, pink)
 
 c.showPage()
 c.save()
